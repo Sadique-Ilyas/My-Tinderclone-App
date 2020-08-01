@@ -7,7 +7,8 @@ class TinderGUI:
     def __init__(self):
         self.root = Tk()
         self.root.title("Tinder App")
-        self.root.maxsize(1366, 768)
+        self.root.maxsize(800, 500)
+        self.root.minsize(800, 500)
         self.root['bg'] = 'Pink'
         self.tinderBackend = Tinder()
 
@@ -43,22 +44,23 @@ class TinderGUI:
         else:
             child = Toplevel(self.root)
             child.title("Login Window")
-            child.maxsize(800, 600)
+            child.maxsize(680, 250)
+            child.minsize(680, 250)
             child['bg'] = 'Pink'
 
-            lblLogin = Label(child, text="   Email:", width=12, height=1, font=('Arial', 15), bg='pink')
-            lblLogin.grid(row=0, column=0)
+            lblLogin = Label(child, text="Email:", width=8, height=1, font=('Arial', 15), bg='pink')
+            lblLogin.grid(row=0, column=0, pady=20)
             entEmail = Entry(child, width=29, font=('Arial', 20))
-            entEmail.grid(row=0, column=1)
+            entEmail.grid(row=0, column=1, pady=20)
 
-            lblPassword = Label(child, text="   Password:", width=20, height=1, font=('Arial', 14), bg='pink')
-            lblPassword.grid(row=1, column=0)
+            lblPassword = Label(child, text="Password:", width=8, height=1, font=('Arial', 14), bg='pink')
+            lblPassword.grid(row=1, column=0, pady=20)
             entPassword = Entry(child, width=29, font=('Arial', 20))
-            entPassword.grid(row=1, column=1)
+            entPassword.grid(row=1, column=1, pady=20)
 
             btnLogin = Button(child, text="Login", width=7, height=1, bg='light blue', font=('Arial', 15),
                               command=lambda: self.validate(child, entEmail.get(), entPassword.get()))
-            btnLogin.grid(row=3, column=1)
+            btnLogin.grid(row=3, column=1, pady=20)
 
     def validate(self, child, email, password):
         result = self.tinderBackend.userLogin(email, password)
@@ -73,6 +75,7 @@ class TinderGUI:
         child = Toplevel(self.root)
         child.title("Registration Window")
         child.maxsize(800, 600)
+
         child['bg'] = 'Pink'
 
         lblName = Label(child, text="Name:", width=8, height=1, font=('Arial', 15))
@@ -113,14 +116,15 @@ class TinderGUI:
     def showUserMenu(self):
         child = Toplevel(self.root)
         child.title("User Window")
-        child.maxsize(800, 600)
+        child.maxsize(460, 460)
+        child.minsize(460, 460)
         child['bg'] = 'Pink'
 
         username = self.tinderBackend.fetchUserName()
 
         lblWelcome = Label(child, width=30, height=1, text=("Welcome %s !" % username[0][0]), bg='pink',
                            font=('Arial', 15))
-        lblWelcome.grid(row=0, column=0, pady=10)
+        lblWelcome.grid(row=0, column=0, pady=20)
 
         btn1 = Button(child, width=20, height=1, text="View All Users", bg='light blue', font=('Arial', 15),
                       command=lambda: self.showUsers())
@@ -150,13 +154,14 @@ class TinderGUI:
 
         userlist = self.tinderBackend.viewAllUsers()
 
-        lblWelcome = Label(child, text="User List", width=35, height=3, font=('Courier,16'), bg="pink", padx=15, pady=5)
+        lblWelcome = Label(child, text="User List", width=35, height=3, font=('Courier,16'), bg="pink", padx=15,
+                           pady=10)
         lblWelcome.grid(row=0, column=0)
 
-        lblgender = Label(child, text="Gender", width=35, height=3, font=('Courier,16'), bg="pink", padx=15, pady=5)
+        lblgender = Label(child, text="Gender", width=35, height=3, font=('Courier,16'), bg="pink", padx=15, pady=10)
         lblgender.grid(row=0, column=1)
 
-        lblcity = Label(child, text="City", width=35, height=3, font=('Courier,16'), bg="pink", padx=15, pady=5)
+        lblcity = Label(child, text="City", width=35, height=3, font=('Courier,16'), bg="pink", padx=15, pady=10)
         lblcity.grid(row=0, column=2)
 
         i = 1
@@ -164,17 +169,17 @@ class TinderGUI:
         for user in userlist:
             if user[0] != self.tinderBackend.currentUserId:
                 lblName = Label(child, text=user[1], width=15, height=1, font=('Arial', 15), padx=15, pady=5, bg="pink")
-                lblName.grid(row=i, column=0)
+                lblName.grid(row=i, column=0, pady=10)
                 lblGender = Label(child, text=user[2], width=6, height=1, font=('Arial', 15), padx=15, pady=5,
                                   bg="pink")
-                lblGender.grid(row=i, column=1)
+                lblGender.grid(row=i, column=1, pady=10)
                 lblCity = Label(child, text=user[3], width=15, height=1, font=('Arial', 15), padx=15, pady=5, bg="pink")
-                lblCity.grid(row=i, column=2)
+                lblCity.grid(row=i, column=2, pady=10)
                 if (self.tinderBackend.checkPropose(user[0])):
                     btnPropose = Button(child, text="Propose", width=8, height=1, font=('Arial', 15), bg="light blue",
                                         padx=15, pady=5,
                                         command=lambda k=i: self.sendProposal(userlist[k - 1][0]))
-                    btnPropose.grid(row=i, column=3)
+                    btnPropose.grid(row=i, column=3, pady=10)
             i = i + 1
 
     def sendProposal(self, userid):
@@ -219,37 +224,34 @@ class TinderGUI:
         child['bg'] = 'Pink'
 
         userlist = self.tinderBackend.viewReceivedProposals()
-        lblWelcome = Label(child, text="Fan List", width=35, height=3, font=('Courier,16'), bg="pink")
+        lblWelcome = Label(child, text="Fan List", width=25, height=3, font=('Courier,16'), bg="pink", padx=15, pady=5)
         lblWelcome.grid(row=0, column=0)
 
-        lblname = Label(child, text="Name", width=35, height=3, font=('Courier,16'), bg="pink", padx=15, pady=5)
+        lblname = Label(child, text="Name", width=20, height=3, font=('Courier,16'), bg="pink", padx=15, pady=5)
         lblname.grid(row=0, column=1)
 
-        lblgender = Label(child, text="Gender", width=35, height=3, font=('Courier,16'), bg="pink", padx=15, pady=5)
+        lblgender = Label(child, text="Gender", width=15, height=3, font=('Courier,16'), bg="pink", padx=15, pady=5)
         lblgender.grid(row=0, column=2)
 
-        lblcity = Label(child, text="City", width=35, height=3, font=('Courier,16'), bg="pink", padx=15, pady=5)
+        lblcity = Label(child, text="City", width=20, height=3, font=('Courier,16'), bg="pink", padx=35, pady=5)
         lblcity.grid(row=0, column=3)
 
         i = 1
         for user in userlist:
             lblId = Label(child, text=user[3], width=2, height=1, font=('Arial', 15), bg="pink")
-            lblId.grid(row=i, column=0)
+            lblId.grid(row=i, column=0, pady=10, padx=15)
             lblName = Label(child, text=user[4], width=15, height=1, font=('Arial', 15), bg="pink")
-            lblName.grid(row=i, column=1)
+            lblName.grid(row=i, column=1, pady=10, padx=15)
             lblGender = Label(child, text=user[5], width=6, height=1, font=('Arial', 15), bg="pink")
-            lblGender.grid(row=i, column=2)
+            lblGender.grid(row=i, column=2, pady=10, padx=15)
             lblCity = Label(child, text=user[6], width=15, height=1, font=('Arial', 15), bg="pink")
-            lblCity.grid(row=i, column=3)
+            lblCity.grid(row=i, column=3, pady=10, padx=15)
+            if (self.tinderBackend.checkPropose(user[3])):
+                btnPropose = Button(child, text="Propose", width=8, height=1, font=('Arial', 15), bg="light blue",
+                                    padx=15, pady=5,
+                                    command=lambda k=i: self.sendProposal(userlist[k - 1][3]))
+                btnPropose.grid(row=i, column=4, pady=10, padx=15)
             i = i + 1
-
-        lPropose = Label(child, text="Enter the ID",
-                         width=25, height=2, font=('Arial', 12), bg="pink").grid(row=i, column=0, columnspan=2)
-        entPropose = Entry(child, width=4, font=('Arial', 14))
-        entPropose.grid(row=i, column=2)
-        btnPropose = Button(child, text="Propose", width=10, height=2,
-                            font=('Arial', 12), bg='light blue',
-                            command=lambda: self.sendProposal(entPropose.get())).grid(row=i, column=3)
 
     def viewMatches(self):
         child = Toplevel(self.root)
