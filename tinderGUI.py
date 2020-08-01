@@ -1,4 +1,4 @@
-from tkinter import messagebox, Tk, Label, Button, Entry, Toplevel
+from tkinter import *
 
 from tinderBackend import *
 
@@ -53,12 +53,12 @@ class TinderGUI:
             entEmail = Entry(child, width=29, font=('Arial', 20))
             entEmail.grid(row=0, column=1, pady=20)
 
-            lblPassword = Label(child, text="Password:", width=8, height=1, font=('Arial', 14), bg='pink')
-            lblPassword.grid(row=1, column=0, pady=20)
+            lblPassword = Label(child, text="Password:", width=8, height=1, font=('Arial', 15), bg='pink')
+            lblPassword.grid(row=1, column=0, pady=10)
             entPassword = Entry(child, width=29, font=('Arial', 20))
-            entPassword.grid(row=1, column=1, pady=20)
+            entPassword.grid(row=1, column=1, pady=10)
 
-            btnLogin = Button(child, text="Login", width=7, height=1, bg='light blue', font=('Arial', 15),
+            btnLogin = Button(child, text="Login", width=7, height=1, bg='light blue', font=('Arial', 20),
                               command=lambda: self.validate(child, entEmail.get(), entPassword.get()))
             btnLogin.grid(row=3, column=1, pady=20)
 
@@ -74,39 +74,40 @@ class TinderGUI:
     def registerWindow(self):
         child = Toplevel(self.root)
         child.title("Registration Window")
-        child.maxsize(800, 600)
+        child.maxsize(800, 400)
+        child.minsize(800, 400)
 
         child['bg'] = 'Pink'
 
-        lblName = Label(child, text="Name:", width=8, height=1, font=('Arial', 15))
-        lblName.grid(row=0, column=0)
+        lblName = Label(child, text="Name:", width=12, height=1, font=('Arial', 15), background='Pink')
+        lblName.grid(row=0, column=0, pady=10)
         entName = Entry(child, width=30, font=('Arial', 20))
-        entName.grid(row=0, column=1)
+        entName.grid(row=0, column=1, pady=10)
 
-        lblGender = Label(child, text="Gender:", width=8, height=1, font=('Arial', 15))
-        lblGender.grid(row=1, column=0)
+        lblGender = Label(child, text="Gender:", width=12, height=1, font=('Arial', 15), background='Pink')
+        lblGender.grid(row=1, column=0, pady=10)
         entGender = Entry(child, width=30, font=('Arial', 20))
-        entGender.grid(row=1, column=1)
+        entGender.grid(row=1, column=1, pady=10)
 
-        lblCity = Label(child, text="City:", width=8, height=1, font=('Arial', 15))
-        lblCity.grid(row=2, column=0)
+        lblCity = Label(child, text="City:", width=12, height=1, font=('Arial', 15), background='Pink')
+        lblCity.grid(row=2, column=0, pady=10)
         entCity = Entry(child, width=30, font=('Arial', 20))
-        entCity.grid(row=2, column=1)
+        entCity.grid(row=2, column=1, pady=10)
 
-        lblEmail = Label(child, text="Email:", width=8, height=1, font=('Arial', 15))
-        lblEmail.grid(row=3, column=0)
+        lblEmail = Label(child, text="Email:", width=12, height=1, font=('Arial', 15), background='Pink')
+        lblEmail.grid(row=3, column=0, pady=10)
         entEmail = Entry(child, width=30, font=('Arial', 20))
-        entEmail.grid(row=3, column=1)
+        entEmail.grid(row=3, column=1, pady=10)
 
-        lblPassword = Label(child, text="Password:", width=8, height=1, font=('Arial', 15))
-        lblPassword.grid(row=4, column=0)
+        lblPassword = Label(child, text="Password:", width=12, height=1, font=('Arial', 15), background='Pink')
+        lblPassword.grid(row=4, column=0, pady=10)
         entPassword = Entry(child, width=30, font=('Arial', 20))
-        entPassword.grid(row=4, column=1)
+        entPassword.grid(row=4, column=1, pady=10)
 
-        btnRegister = Button(child, width=8, height=2, text="Register", font=('Arial', 20),
+        btnRegister = Button(child, width=8, height=1, text="Register", font=('Arial', 20), background='light blue',
                              command=lambda: self.addUser(child, entName.get(), entGender.get(), entCity.get(),
                                                           entEmail.get(), entPassword.get()))
-        btnRegister.grid(row=5, column=1)
+        btnRegister.grid(row=5, column=1, pady=10)
 
     def addUser(self, child, name, gender, city, email, password):
         self.tinderBackend.userRegister(name, gender, city, email, password)
