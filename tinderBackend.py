@@ -44,8 +44,6 @@ class Tinder:
           select * from users where userid != '%s'
           """ % (self.currentUserId))
         userlist = self.mycursor.fetchall()
-        print("------------USER LIST-------------")
-        print(userlist)
         return userlist
 
     def propose(self, julietid):
@@ -72,8 +70,6 @@ class Tinder:
         """ % (self.currentUserId))
 
         rows = self.mycursor.fetchall()
-        print("------------RECEIVED PROPOSALS-------------")
-        print(rows)
         return rows
 
     def viewMatches(self):

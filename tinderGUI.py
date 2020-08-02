@@ -1,5 +1,6 @@
 from tkinter import *
 from tkinter import messagebox
+from tkinter import ttk
 
 from tinderBackend import *
 
@@ -152,33 +153,57 @@ class TinderGUI:
         child = Toplevel(self.root)
         child.title("User List")
         child.maxsize(1366, 768)
+        child.minsize(1366, 768)
         child['bg'] = 'Pink'
+
+        # Create a Main Frame
+        main_frame = Frame(child)
+        main_frame.pack(fill=BOTH, expand=1)
+        # Create a Canvas
+        my_canvas = Canvas(main_frame, background='Pink')
+        my_canvas.pack(side=LEFT, fill=BOTH, expand=1)
+        # Add a scrollbar to the canvas
+        my_scrollbar = ttk.Scrollbar(main_frame, orient=VERTICAL, command=my_canvas.yview)
+        my_scrollbar.pack(side=RIGHT, fill=Y)
+        # Configure the canvas
+        my_canvas.configure(yscrollcommand=my_scrollbar.set)
+        my_canvas.bind('<Configure>', lambda e: my_canvas.configure(scrollregion=my_canvas.bbox("all")))
+        # Create Another Frame inside the canvas
+        second_frame = Frame(my_canvas, background='Pink')
+        # Add that new frame to a window in the canvas
+        my_canvas.create_window((0, 0), window=second_frame, anchor="nw")
+
+
 
         userlist = self.tinderBackend.viewAllUsers()
 
-        lblWelcome = Label(child, text="User List", width=35, height=3, font=('Courier,16'), bg="pink", padx=15,
+        lblWelcome = Label(second_frame, text="User List", width=35, height=3, font=('Courier,16'), bg="pink", padx=15,
                            pady=10)
         lblWelcome.grid(row=0, column=0)
 
-        lblgender = Label(child, text="Gender", width=35, height=3, font=('Courier,16'), bg="pink", padx=15, pady=10)
+        lblgender = Label(second_frame, text="Gender", width=35, height=3, font=('Courier,16'), bg="pink", padx=15,
+                          pady=10)
         lblgender.grid(row=0, column=1)
 
-        lblcity = Label(child, text="City", width=35, height=3, font=('Courier,16'), bg="pink", padx=15, pady=10)
+        lblcity = Label(second_frame, text="City", width=35, height=3, font=('Courier,16'), bg="pink", padx=15, pady=10)
         lblcity.grid(row=0, column=2)
 
         i = 1
         k = 0
         for user in userlist:
             if user[0] != self.tinderBackend.currentUserId:
-                lblName = Label(child, text=user[1], width=15, height=1, font=('Arial', 15), padx=15, pady=5, bg="pink")
+                lblName = Label(second_frame, text=user[1], width=15, height=1, font=('Arial', 15), padx=15, pady=5,
+                                bg="pink")
                 lblName.grid(row=i, column=0, pady=10)
-                lblGender = Label(child, text=user[2], width=6, height=1, font=('Arial', 15), padx=15, pady=5,
+                lblGender = Label(second_frame, text=user[2], width=6, height=1, font=('Arial', 15), padx=15, pady=5,
                                   bg="pink")
                 lblGender.grid(row=i, column=1, pady=10)
-                lblCity = Label(child, text=user[3], width=15, height=1, font=('Arial', 15), padx=15, pady=5, bg="pink")
+                lblCity = Label(second_frame, text=user[3], width=15, height=1, font=('Arial', 15), padx=15, pady=5,
+                                bg="pink")
                 lblCity.grid(row=i, column=2, pady=10)
                 if (self.tinderBackend.checkPropose(user[0])):
-                    btnPropose = Button(child, text="Propose", width=8, height=1, font=('Arial', 15), bg="light blue",
+                    btnPropose = Button(second_frame, text="Propose", width=8, height=1, font=('Arial', 15),
+                                        bg="light blue",
                                         padx=15, pady=5,
                                         command=lambda k=i: self.sendProposal(userlist[k - 1][0]))
                     btnPropose.grid(row=i, column=3, pady=10)
@@ -192,30 +217,49 @@ class TinderGUI:
         child = Toplevel(self.root)
         child.title("Sent Proposals List")
         child.maxsize(1366, 768)
+        child.minsize(1366, 768)
         child['bg'] = 'Pink'
 
+        # Create a Main Frame
+        main_frame = Frame(child)
+        main_frame.pack(fill=BOTH, expand=1)
+        # Create a Canvas
+        my_canvas = Canvas(main_frame, background='Pink')
+        my_canvas.pack(side=LEFT, fill=BOTH, expand=1)
+        # Add a scrollbar to the canvas
+        my_scrollbar = ttk.Scrollbar(main_frame, orient=VERTICAL, command=my_canvas.yview)
+        my_scrollbar.pack(side=RIGHT, fill=Y)
+        # Configure the canvas
+        my_canvas.configure(yscrollcommand=my_scrollbar.set)
+        my_canvas.bind('<Configure>', lambda e: my_canvas.configure(scrollregion=my_canvas.bbox("all")))
+        # Create Another Frame inside the canvas
+        second_frame = Frame(my_canvas, background='Pink')
+        # Add that new frame to a window in the canvas
+        my_canvas.create_window((0, 0), window=second_frame, anchor="nw")
+
         userlist = self.tinderBackend.viewSentProposals()
-        lblWelcome = Label(child, text="Crush List", width=35, height=3, font=('Courier,16'), bg="pink")
+        lblWelcome = Label(second_frame, text="Crush List", width=35, height=3, font=('Courier,16'), bg="pink")
         lblWelcome.grid(row=0, column=0)
 
-        lblname = Label(child, text="Name", width=35, height=3, font=('Courier,16'), bg="pink", padx=15, pady=5)
+        lblname = Label(second_frame, text="Name", width=35, height=3, font=('Courier,16'), bg="pink", padx=15, pady=5)
         lblname.grid(row=0, column=1)
 
-        lblgender = Label(child, text="Gender", width=35, height=3, font=('Courier,16'), bg="pink", padx=15, pady=5)
+        lblgender = Label(second_frame, text="Gender", width=35, height=3, font=('Courier,16'), bg="pink", padx=15,
+                          pady=5)
         lblgender.grid(row=0, column=2)
 
-        lblcity = Label(child, text="City", width=35, height=3, font=('Courier,16'), bg="pink", padx=15, pady=5)
+        lblcity = Label(second_frame, text="City", width=35, height=3, font=('Courier,16'), bg="pink", padx=15, pady=5)
         lblcity.grid(row=0, column=3)
 
         i = 1
         for user in userlist:
-            lblId = Label(child, text=user[3], width=2, height=1, font=('Arial', 15), bg="pink")
+            lblId = Label(second_frame, text=user[3], width=2, height=1, font=('Arial', 15), bg="pink")
             lblId.grid(row=i, column=0)
-            lblName = Label(child, text=user[4], width=15, height=1, font=('Arial', 15), bg="pink")
+            lblName = Label(second_frame, text=user[4], width=15, height=1, font=('Arial', 15), bg="pink")
             lblName.grid(row=i, column=1)
-            lblGender = Label(child, text=user[5], width=6, height=1, font=('Arial', 15), bg="pink")
+            lblGender = Label(second_frame, text=user[5], width=6, height=1, font=('Arial', 15), bg="pink")
             lblGender.grid(row=i, column=2)
-            lblCity = Label(child, text=user[6], width=15, height=1, font=('Arial', 15), bg="pink")
+            lblCity = Label(second_frame, text=user[6], width=15, height=1, font=('Arial', 15), bg="pink")
             lblCity.grid(row=i, column=3)
             i = i + 1
 
@@ -223,33 +267,54 @@ class TinderGUI:
         child = Toplevel(self.root)
         child.title("Received List")
         child.maxsize(1366, 768)
+        child.minsize(1366, 768)
         child['bg'] = 'Pink'
 
+        # Create a Main Frame
+        main_frame = Frame(child)
+        main_frame.pack(fill=BOTH, expand=1)
+        # Create a Canvas
+        my_canvas = Canvas(main_frame, background='Pink')
+        my_canvas.pack(side=LEFT, fill=BOTH, expand=1)
+        # Add a scrollbar to the canvas
+        my_scrollbar = ttk.Scrollbar(main_frame, orient=VERTICAL, command=my_canvas.yview)
+        my_scrollbar.pack(side=RIGHT, fill=Y)
+        # Configure the canvas
+        my_canvas.configure(yscrollcommand=my_scrollbar.set)
+        my_canvas.bind('<Configure>', lambda e: my_canvas.configure(scrollregion=my_canvas.bbox("all")))
+        # Create Another Frame inside the canvas
+        second_frame = Frame(my_canvas, background='Pink')
+        # Add that new frame to a window in the canvas
+        my_canvas.create_window((0, 0), window=second_frame, anchor="nw")
+
         userlist = self.tinderBackend.viewReceivedProposals()
-        lblWelcome = Label(child, text="Fan List", width=25, height=3, font=('Courier,16'), bg="pink", padx=15, pady=5)
+        lblWelcome = Label(second_frame, text="Fan List", width=25, height=3, font=('Courier,16'), bg="pink", padx=15,
+                           pady=5)
         lblWelcome.grid(row=0, column=0)
 
-        lblname = Label(child, text="Name", width=20, height=3, font=('Courier,16'), bg="pink", padx=15, pady=5)
+        lblname = Label(second_frame, text="Name", width=20, height=3, font=('Courier,16'), bg="pink", padx=15, pady=5)
         lblname.grid(row=0, column=1)
 
-        lblgender = Label(child, text="Gender", width=15, height=3, font=('Courier,16'), bg="pink", padx=15, pady=5)
+        lblgender = Label(second_frame, text="Gender", width=15, height=3, font=('Courier,16'), bg="pink", padx=15,
+                          pady=5)
         lblgender.grid(row=0, column=2)
 
-        lblcity = Label(child, text="City", width=20, height=3, font=('Courier,16'), bg="pink", padx=35, pady=5)
+        lblcity = Label(second_frame, text="City", width=20, height=3, font=('Courier,16'), bg="pink", padx=35, pady=5)
         lblcity.grid(row=0, column=3)
 
         i = 1
         for user in userlist:
-            lblId = Label(child, text=user[3], width=2, height=1, font=('Arial', 15), bg="pink")
+            lblId = Label(second_frame, text=user[3], width=2, height=1, font=('Arial', 15), bg="pink")
             lblId.grid(row=i, column=0, pady=10, padx=15)
-            lblName = Label(child, text=user[4], width=15, height=1, font=('Arial', 15), bg="pink")
+            lblName = Label(second_frame, text=user[4], width=15, height=1, font=('Arial', 15), bg="pink")
             lblName.grid(row=i, column=1, pady=10, padx=15)
-            lblGender = Label(child, text=user[5], width=6, height=1, font=('Arial', 15), bg="pink")
+            lblGender = Label(second_frame, text=user[5], width=6, height=1, font=('Arial', 15), bg="pink")
             lblGender.grid(row=i, column=2, pady=10, padx=15)
-            lblCity = Label(child, text=user[6], width=15, height=1, font=('Arial', 15), bg="pink")
+            lblCity = Label(second_frame, text=user[6], width=15, height=1, font=('Arial', 15), bg="pink")
             lblCity.grid(row=i, column=3, pady=10, padx=15)
             if (self.tinderBackend.checkPropose(user[3])):
-                btnPropose = Button(child, text="Propose", width=8, height=1, font=('Arial', 15), bg="light blue",
+                btnPropose = Button(second_frame, text="Propose", width=8, height=1, font=('Arial', 15),
+                                    bg="light blue",
                                     padx=15, pady=5,
                                     command=lambda k=i: self.sendProposal(userlist[k - 1][3]))
                 btnPropose.grid(row=i, column=4, pady=10, padx=15)
@@ -259,30 +324,50 @@ class TinderGUI:
         child = Toplevel(self.root)
         child.title("Matches List")
         child.maxsize(1366, 768)
+        child.minsize(1366, 768)
+
         child['bg'] = 'Pink'
 
+        # Create a Main Frame
+        main_frame = Frame(child)
+        main_frame.pack(fill=BOTH, expand=1)
+        # Create a Canvas
+        my_canvas = Canvas(main_frame, background='Pink')
+        my_canvas.pack(side=LEFT, fill=BOTH, expand=1)
+        # Add a scrollbar to the canvas
+        my_scrollbar = ttk.Scrollbar(main_frame, orient=VERTICAL, command=my_canvas.yview)
+        my_scrollbar.pack(side=RIGHT, fill=Y)
+        # Configure the canvas
+        my_canvas.configure(yscrollcommand=my_scrollbar.set)
+        my_canvas.bind('<Configure>', lambda e: my_canvas.configure(scrollregion=my_canvas.bbox("all")))
+        # Create Another Frame inside the canvas
+        second_frame = Frame(my_canvas, background='Pink')
+        # Add that new frame to a window in the canvas
+        my_canvas.create_window((0, 0), window=second_frame, anchor="nw")
+
         userlist = self.tinderBackend.viewMatches()
-        lblWelcome = Label(child, text="Match List", width=35, height=3, font=('Courier,16'), bg="pink")
+        lblWelcome = Label(second_frame, text="Match List", width=35, height=3, font=('Courier,16'), bg="pink")
         lblWelcome.grid(row=0, column=0)
 
-        lblname = Label(child, text="Name", width=35, height=3, font=('Courier,16'), bg="pink", padx=15, pady=5)
+        lblname = Label(second_frame, text="Name", width=35, height=3, font=('Courier,16'), bg="pink", padx=15, pady=5)
         lblname.grid(row=0, column=1)
 
-        lblgender = Label(child, text="Gender", width=35, height=3, font=('Courier,16'), bg="pink", padx=15, pady=5)
+        lblgender = Label(second_frame, text="Gender", width=35, height=3, font=('Courier,16'), bg="pink", padx=15,
+                          pady=5)
         lblgender.grid(row=0, column=2)
 
-        lblcity = Label(child, text="City", width=35, height=3, font=('Courier,16'), bg="pink", padx=15, pady=5)
+        lblcity = Label(second_frame, text="City", width=35, height=3, font=('Courier,16'), bg="pink", padx=15, pady=5)
         lblcity.grid(row=0, column=3)
 
         i = 1
         for user in userlist:
-            lblId = Label(child, text=user[3], width=2, height=1, font=('Arial', 15), bg="pink")
+            lblId = Label(second_frame, text=user[3], width=2, height=1, font=('Arial', 15), bg="pink")
             lblId.grid(row=i, column=0)
-            lblName = Label(child, text=user[4], width=15, height=1, font=('Arial', 15), bg="pink")
+            lblName = Label(second_frame, text=user[4], width=15, height=1, font=('Arial', 15), bg="pink")
             lblName.grid(row=i, column=1)
-            lblGender = Label(child, text=user[5], width=6, height=1, font=('Arial', 15), bg="pink")
+            lblGender = Label(second_frame, text=user[5], width=6, height=1, font=('Arial', 15), bg="pink")
             lblGender.grid(row=i, column=2)
-            lblCity = Label(child, text=user[6], width=15, height=1, font=('Arial', 15), bg="pink")
+            lblCity = Label(second_frame, text=user[6], width=15, height=1, font=('Arial', 15), bg="pink")
             lblCity.grid(row=i, column=3)
             i = i + 1
 
